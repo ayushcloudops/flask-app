@@ -4,10 +4,12 @@ import socket
 import redis
 
 REDIS_HOST = os.getenv("REDIS_HOST", "redis-master")
+REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", None)
 
 r = redis.Redis(
     host=REDIS_HOST,
     port=6379,
+    password=REDIS_PASSWORD,
     decode_responses=True,
     socket_connect_timeout=2,
     socket_timeout=2
