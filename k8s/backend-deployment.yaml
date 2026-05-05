@@ -19,5 +19,11 @@ spec:
           ports:
             - containerPort: 5000
           env:
-            - name: DB_HOST
-              value: "10.0.0.10" # VM private IP
+            - name: REDIS_HOST
+              value: redis-master
+            
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis
+                  key: redis-password
