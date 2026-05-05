@@ -15,5 +15,6 @@ spec:
       containers:
         - name: frontend
           image: us-central1-docker.pkg.dev/project-8483851b-609d-4073-ba2/flask-repo/frontend:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
