@@ -1,14 +1,21 @@
 from flask import Flask, jsonify
 import os
 import socket
+import redis
+
+r = redis.Redis(
+    host='redis-master.default.svc.cluster.local',
+    port=6379,
+    decode_responses=True
+)
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
     return jsonify({
-        "message": "Backend is running 🚀",
-        "hostname": socket.gethostname()
+        r.incr("counter")
+        return f"Counter: {r.get('counter')}"
     })
 
 @app.route("/health")
