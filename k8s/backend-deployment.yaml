@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: YOUR_DOCKER_REPO/backend:latest
+          image: us-central1-docker.pkg.dev/project-8483851b-609d-4073-ba2/flask-repo/backend:latest
           ports:
             - containerPort: 5000
           env:
