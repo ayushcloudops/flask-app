@@ -3,25 +3,35 @@ import os
 import socket
 import redis
 
+REDIS_HOST = os.getenv("REDIS_HOST", "redis-master")
+
 r = redis.Redis(
-    host='redis-master.default.svc.cluster.local',
+    host=REDIS_HOST,
     port=6379,
-    decode_responses=True
+    decode_responses=True,
+    socket_connect_timeout=2,
+    socket_timeout=2
 )
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return jsonify({
-        r.incr("counter")
-        return f"Counter: {r.get('counter')}"
+    try:
+        count = r.incr("counter")
+        return jsonify({"counter": count})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
     })
 
 @app.route("/health")
 def health():
-    return "OK", 200
-
+    try:
+        r.ping()
+        return "OK", 200
+    except:
+        return "Redis not reachable", 500
+        
 @app.route("/db")
 def db():
     db_host = os.getenv("DB_HOST", "not-set")
